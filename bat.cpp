@@ -9,10 +9,8 @@ const int DIMENSIONE = 10;
 const char VUOTO = ' ';
 const int numeroNavi = 7;
 
-
 struct nave
 {
-    int indice;
     string tipo;
     int lunghezza;
 };
@@ -24,19 +22,19 @@ nave *creaFlotta()
     while (n < 2)
     {
         navi[n].lunghezza = 5;
-        navi[n].tipo = "corazzata";
+        navi[n].tipo = "corazzata" + to_string(n);
         n++;
     }
     while (n < 4)
     {
         navi[n].lunghezza = 3;
-        navi[n].tipo = "incrociatore";
+        navi[n].tipo = "incrociatore" + to_string(n);
         n++;
     }
     while (n < numeroNavi)
     {
         navi[n].lunghezza = 2;
-        navi[n].tipo = "sottomarino";
+        navi[n].tipo = "sottomarino" + to_string(n);
         n++;
     }
     return navi;
@@ -123,7 +121,8 @@ bool posiziona(char matrice[][DIMENSIONE], nave ship, int x, int y, int v)
             i = x;
             while (index < ship.lunghezza)
             {
-                matrice[y][i] = ship.tipo[0];
+                
+                matrice[y][i] = ship.tipo[ship.tipo.length()-1];
                 i++;
                 index++;
             }
@@ -153,7 +152,7 @@ bool posiziona(char matrice[][DIMENSIONE], nave ship, int x, int y, int v)
             i = y;
             while (index < ship.lunghezza)
             {
-                matrice[i][x] = ship.tipo[0];
+                matrice[i][x] = ship.tipo[ship.tipo.length()-1];
                 index++;
                 i++;
             }
@@ -163,6 +162,7 @@ bool posiziona(char matrice[][DIMENSIONE], nave ship, int x, int y, int v)
     }
     return check;
 }
+
 void impostaNavi(char matrice[][DIMENSIONE], nave navi[])
 {
     int coordX = rand() % DIMENSIONE;
