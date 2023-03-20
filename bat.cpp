@@ -436,12 +436,11 @@ int main()
             Sleep(1500);
             while (turnoGiocatore(grigliaPCNascosta, grigliaPCVisibile) and (!finePartita(grigliaPCVisibile)))
             {
-                bersagliColpiti = checkBersagli(grigliaPCNascosta, grigliaPCVisibile);
                 /*for (int i =0; i<NUMERONAVI; i++)
                 {
                     cout << bersagliColpiti[i] << "   ";
                 }*/
-                affondato = isColpitoEAffondato(bersagliColpiti);
+                affondato = isColpitoEAffondato(checkBersagli(grigliaPCNascosta, grigliaPCVisibile));
                 // cout << affondato << endl;
                 if (affondato != -1)
                 {
