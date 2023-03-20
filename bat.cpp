@@ -258,7 +258,7 @@ bool finePartita(char matrice[][DIMENSIONE])
     return (count == 2);
 }
 
-int *isColpitoEAffondato(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
+int *checkBersagli(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
 {
     int numeri[NUMERONAVI];
     int indiceNavi = 0;
@@ -294,56 +294,60 @@ void impostaGiocatoreVisibile(char matriceNascosta[][DIMENSIONE], char matriceVi
     }
 }
 
-void mostraNaveAbbattuta(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
+void mostraNaveAbbattuta(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE], int numeroNave)
 {
+    char car;
+    if ((numeroNave == 0) or (numeroNave == 1))
+    {
+        car = 'c';
+    }
+    else if ((numeroNave == 2) or (numeroNave == 3))
+    {
+        car = 'i';
+    }
+    else
+    {
+        car = 's';
+    }
+
     for (int i = 0; i < DIMENSIONE; i++)
     {
         for (int j = 0; j < DIMENSIONE; j++)
         {
-            if (matriceVisibile[i][j] == 'X')
+            if (matriceNascosta[i][j] == (char)(numeroNave + 48))
             {
-                matriceVisibile[i][j] = matriceNascosta[i][j];
+                matriceVisibile[i][j] = car;
             }
         }
     }
 }
 
-bool checkBersagli(int bersagli[])
+int isColpitoEAffondato(int bersagli[])
 {
-    bool cond = false;
     int n = 0;
+    int indice = -1;
     while (n < 2)
     {
-        if ((bersagli[n] % 5 == 0) and (bersagli[n] != 0))
+        if (bersagli[n] == 5)
         {
-            cond = true;
+            indice = n;
         }
     }
     while (n < 4)
     {
-        if ((bersagli[n] % 3 == 0) and (bersagli[n] != 0))
+        if (bersagli[n] == 3)
         {
-            cond = true;
+            indice = n;
         }
     }
     while (n < NUMERONAVI)
     {
-        if ((bersagli[n] % 2 == 0) and (bersagli[n] != 0))
+        if (bersagli[n] == 2)
         {
-            cond = true;
+            indice = n;
         }
     }
-    bool cond2 = false;
-    int cont = 0;
-    for (int i = 0; i < NUMERONAVI; i++)
-    {
-        if (bersagli[i] != 0)
-        {
-            cont++;
-        }
-    }
-    cond2 = (cont == 1);
-    return (cond and cond2);
+    return indice;
 }
 
 int main()
@@ -378,10 +382,11 @@ int main()
             while (turnoGiocatore(grigliaPCNascosta, grigliaPCVisibile))
             {
                 Sleep(1500);
-                bersagliColpiti = isColpitoEAffondato(grigliaPCNascosta, grigliaPCVisibile);
-                if (checkBersagli(bersagliColpiti))
+                bersagliColpiti = checkBersagli(grigliaPCNascosta, grigliaPCVisibile);
+                int affondato = isColpitoEAffondato(bersagliColpiti);
+                if (affondato != -1)
                 {
-                    mostraNaveAbbattuta(grigliaPCNascosta, grigliaPCVisibile);
+                    mostraNaveAbbattuta(grigliaPCNascosta, grigliaPCVisibile, affondato);
                     stampaConDelay("Colpito e affondato!\n");
                 }
                 stampaConsole(grigliaGiocatoreVisibile, grigliaPCVisibile);
