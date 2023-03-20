@@ -3,11 +3,12 @@
 #include <time.h>
 #include <Windows.h>
 #include <process.h>
+#include <string>
 
 using namespace std;
 const int DIMENSIONE = 10;
 const char VUOTO = ' ';
-const int numeroNavi = 7;
+const int NUMERONAVI = 7;
 
 struct nave
 {
@@ -17,7 +18,7 @@ struct nave
 
 nave *creaFlotta()
 {
-    nave *navi = new nave[numeroNavi];
+    nave *navi = new nave[NUMERONAVI];
     int n = 0;
     while (n < 2)
     {
@@ -31,7 +32,7 @@ nave *creaFlotta()
         navi[n].tipo = "incrociatore" + to_string(n);
         n++;
     }
-    while (n < numeroNavi)
+    while (n < NUMERONAVI)
     {
         navi[n].lunghezza = 2;
         navi[n].tipo = "sottomarino" + to_string(n);
@@ -121,8 +122,8 @@ bool posiziona(char matrice[][DIMENSIONE], nave ship, int x, int y, int v)
             i = x;
             while (index < ship.lunghezza)
             {
-                
-                matrice[y][i] = ship.tipo[ship.tipo.length()-1];
+
+                matrice[y][i] = ship.tipo[ship.tipo.length() - 1];
                 i++;
                 index++;
             }
@@ -152,7 +153,7 @@ bool posiziona(char matrice[][DIMENSIONE], nave ship, int x, int y, int v)
             i = y;
             while (index < ship.lunghezza)
             {
-                matrice[i][x] = ship.tipo[ship.tipo.length()-1];
+                matrice[i][x] = ship.tipo[ship.tipo.length() - 1];
                 index++;
                 i++;
             }
@@ -231,12 +232,12 @@ bool turnoGiocatore(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][D
     int coordinata = (int)lettera - 65;
     if (matriceNascosta[numero - 1][coordinata] != VUOTO)
     {
-        matriceVisibile[numero - 1][coordinata] = 'O';
+        matriceVisibile[numero - 1][coordinata] = 'X';
         return true;
     }
     else
     {
-        matriceVisibile[numero - 1][coordinata] = 'X';
+        matriceVisibile[numero - 1][coordinata] = 'O';
         return false;
     }
 }
@@ -248,57 +249,101 @@ bool finePartita(char matrice[][DIMENSIONE])
     {
         for (int j = 0; j < DIMENSIONE; j++)
         {
-            if (matrice[i][j] == 'O')
+            if (matrice[i][j] == 'X')
             {
                 count++;
             }
         }
     }
-    return (count == 22);
+    return (count == 2);
 }
 
-bool isColpitoEAffondato(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
+int *isColpitoEAffondato(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
 {
-    int numC = 0;
-    int numI = 0;
-    int numS = 0;
+    int numeri[NUMERONAVI];
+    int indiceNavi = 0;
+    for (int i = 0; i < NUMERONAVI; i++)
+    {
+        numeri[i] = 0;
+    }
     for (int i = 0; i < DIMENSIONE; i++)
     {
         for (int j = 0; j < DIMENSIONE; j++)
         {
-            if (matriceVisibile[i][j] == 'O')
+            if (matriceVisibile[i][j] == 'X')
             {
-                if (matriceNascosta[i][j] == 'c')
-                {
-                    numC++;
-                }
-                else if (matriceNascosta[i][j] == 'i')
-                {
-                    numI++;
-                }
-                else if (matriceNascosta[i][j] == 's')
-                {
-                    numS++;
-                }
+                indiceNavi = (int)matriceNascosta[i][j] - 48;
+                numeri[indiceNavi]++;
             }
         }
     }
-    if ((numC % 5 == 0) and (numC != 0))
+    return numeri;
+}
+
+void impostaGiocatoreVisibile(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
+{
+    for (int i = 0; i < DIMENSIONE; i++)
     {
-        return true;
+        for (int j = 0; j < DIMENSIONE; j++)
+        {
+            if (matriceNascosta[i][j] != VUOTO)
+            {
+                matriceVisibile[i][j] = matriceNascosta[i][j];
+            }
+        }
     }
-    else if ((numI % 3 == 0) and (numI != 0))
+}
+
+void mostraNaveAbbattuta(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
+{
+    for (int i = 0; i < DIMENSIONE; i++)
     {
-        return true;
+        for (int j = 0; j < DIMENSIONE; j++)
+        {
+            if (matriceVisibile[i][j] == 'X')
+            {
+                matriceVisibile[i][j] = matriceNascosta[i][j];
+            }
+        }
     }
-    else if ((numS % 2 == 0) and (numS != 0))
+}
+
+bool checkBersagli(int bersagli[])
+{
+    bool cond = false;
+    int n = 0;
+    while (n < 2)
     {
-        return true;
+        if ((bersagli[n] % 5 == 0) and (bersagli[n] != 0))
+        {
+            cond = true;
+        }
     }
-    else
+    while (n < 4)
     {
-        return false;
+        if ((bersagli[n] % 3 == 0) and (bersagli[n] != 0))
+        {
+            cond = true;
+        }
     }
+    while (n < NUMERONAVI)
+    {
+        if ((bersagli[n] % 2 == 0) and (bersagli[n] != 0))
+        {
+            cond = true;
+        }
+    }
+    bool cond2 = false;
+    int cont = 0;
+    for (int i = 0; i < NUMERONAVI; i++)
+    {
+        if (bersagli[i] != 0)
+        {
+            cont++;
+        }
+    }
+    cond2 = (cont == 1);
+    return (cond and cond2);
 }
 
 int main()
@@ -306,37 +351,42 @@ int main()
     bool turno = true;
     string giocatore = "Riccardo";
     nave *flotta = creaFlotta();
-    char grigliaGiocatore[DIMENSIONE][DIMENSIONE];
-    char grigliaPC[DIMENSIONE][DIMENSIONE];
-    char grigliaAvversario[DIMENSIONE][DIMENSIONE];
-    inizializza(grigliaGiocatore);
-    inizializza(grigliaPC);
-    inizializza(grigliaAvversario);
+    char grigliaGiocatoreNascosta[DIMENSIONE][DIMENSIONE];
+    char grigliaPCNascosta[DIMENSIONE][DIMENSIONE];
+    char grigliaPCVisibile[DIMENSIONE][DIMENSIONE];
+    char grigliaGiocatoreVisibile[DIMENSIONE][DIMENSIONE];
+    inizializza(grigliaGiocatoreNascosta);
+    inizializza(grigliaPCNascosta);
+    inizializza(grigliaPCVisibile);
+    inizializza(grigliaGiocatoreVisibile);
     stampaConDelay("STO POSIZIONANDO LE NAVI..........");
-    impostaNavi(grigliaGiocatore, flotta);
-    impostaNavi(grigliaPC, flotta);
+    impostaNavi(grigliaGiocatoreNascosta, flotta);
+    impostaNavi(grigliaPCNascosta, flotta);
+    impostaGiocatoreVisibile(grigliaGiocatoreNascosta, grigliaGiocatoreVisibile);
     stampaConDelay("FLOTTE PRONTE ALLA BATTAGLIA!");
     cout << endl
          << endl;
     Sleep(1500);
-    stampaConsole(grigliaGiocatore, grigliaAvversario);
-    // stampaConsole(grigliaGiocatore, grigliaPC);
-    bool diNuovo = false;
+    stampaConsole(grigliaGiocatoreVisibile, grigliaPCVisibile);
+    // stampaConsole(grigliaGiocatoreNascosta, grigliaPCNascosta);
+    int *bersagliColpiti;
     do
     {
         if (turno)
         {
             Sleep(1500);
-            while (turnoGiocatore(grigliaPC, grigliaAvversario))
+            while (turnoGiocatore(grigliaPCNascosta, grigliaPCVisibile))
             {
                 Sleep(1500);
-                if (isColpitoEAffondato(grigliaPC, grigliaAvversario))
+                bersagliColpiti = isColpitoEAffondato(grigliaPCNascosta, grigliaPCVisibile);
+                if (checkBersagli(bersagliColpiti))
                 {
+                    mostraNaveAbbattuta(grigliaPCNascosta, grigliaPCVisibile);
                     stampaConDelay("Colpito e affondato!\n");
                 }
-                stampaConsole(grigliaGiocatore, grigliaAvversario);
+                stampaConsole(grigliaGiocatoreVisibile, grigliaPCVisibile);
             }
-            stampaConsole(grigliaGiocatore, grigliaAvversario);
+            stampaConsole(grigliaGiocatoreVisibile, grigliaPCVisibile);
             turno = !turno;
         }
         else
@@ -344,6 +394,6 @@ int main()
             stampaConDelay("Tocca di nuovo a te...");
             turno = !turno;
         }
-    } while (!finePartita(grigliaGiocatore) and !finePartita(grigliaAvversario));
+    } while (!finePartita(grigliaGiocatoreVisibile) and !finePartita(grigliaPCVisibile));
     system("pause");
 }
