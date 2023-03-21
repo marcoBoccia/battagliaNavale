@@ -282,7 +282,11 @@ bool turnoPC(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIO
         int coordX = rand() % 10;
         int coordY = rand() % 10;
     }
-    stampaConDelay("Il computer si prepara a colpire...\n");
+    char indiceNumero = ((char)coordX + 65);
+
+    stampaConDelay("Il computer si prepara a colpire in ");
+    cout << indiceNumero << " " << coordY+1;
+    stampaConDelay("...\n");
     if (matriceNascosta[coordY][coordX] != VUOTO)
     {
         matriceVisibile[coordY][coordX] = 'X';
