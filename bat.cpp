@@ -16,6 +16,15 @@ struct nave
     int lunghezza;
 };
 
+void stampaConDelay(string frase)
+{
+    for (int i = 0; i < frase.length(); i++)
+    {
+        cout << frase[i];
+        Sleep(15);
+    }
+}
+
 nave *creaFlotta()
 {
     nave *navi = new nave[NUMERONAVI];
@@ -48,6 +57,44 @@ void inizializza(char matrice[][DIMENSIONE])
         for (int j = 0; j < DIMENSIONE; j++)
         {
             matrice[i][j] = VUOTO;
+        }
+    }
+}
+
+char rendiMaiuscola(char c)
+{
+    if (((int)c >= 'a') and ((int)c <= 'z'))
+    {
+        return (int)c - 32;
+    }
+    else
+    {
+        return c;
+    }
+}
+
+bool checkCoordinate(char let, int num)
+{
+    if (((int)let < 'A') or ((int)let > 'A' + DIMENSIONE) or (num < 1) or (num > 10))
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+void impostaGiocatoreVisibile(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
+{
+    for (int i = 0; i < DIMENSIONE; i++)
+    {
+        for (int j = 0; j < DIMENSIONE; j++)
+        {
+            if (matriceNascosta[i][j] != VUOTO)
+            {
+                matriceVisibile[i][j] = matriceNascosta[i][j];
+            }
         }
     }
 }
@@ -181,39 +228,6 @@ void impostaNavi(char matrice[][DIMENSIONE], nave navi[])
     }
 }
 
-void stampaConDelay(string frase)
-{
-    for (int i = 0; i < frase.length(); i++)
-    {
-        cout << frase[i];
-        Sleep(15);
-    }
-}
-
-bool checkCoordinate(char let, int num)
-{
-    if (((int)let < 'A') or ((int)let > 'A' + DIMENSIONE) or (num < 1) or (num > 10))
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
-
-char rendiMaiuscola(char c)
-{
-    if (((int)c >= 'a') and ((int)c <= 'z'))
-    {
-        return (int)c - 32;
-    }
-    else
-    {
-        return c;
-    }
-}
-
 bool turnoGiocatore(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
 {
     char lettera;
@@ -266,23 +280,6 @@ bool turnoPC(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIO
     }
 }
 
-bool finePartita(char matrice[][DIMENSIONE])
-{
-    int count = 0;
-    for (int i = 0; i < DIMENSIONE; i++)
-    {
-        for (int j = 0; j < DIMENSIONE; j++)
-        {
-            if ((matrice[i][j] == 'c') or (matrice[i][j] == 's') or (matrice[i][j] == 'i') or (matrice[i][j] == 'X'))
-            {
-                count++;
-            }
-        }
-    }
-    // cout << count << endl;
-    return (count == 22);
-}
-
 int *checkBersagli(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
 {
     int *numeri = new int[NUMERONAVI];
@@ -303,48 +300,6 @@ int *checkBersagli(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DI
         }
     }
     return numeri;
-}
-
-void impostaGiocatoreVisibile(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE])
-{
-    for (int i = 0; i < DIMENSIONE; i++)
-    {
-        for (int j = 0; j < DIMENSIONE; j++)
-        {
-            if (matriceNascosta[i][j] != VUOTO)
-            {
-                matriceVisibile[i][j] = matriceNascosta[i][j];
-            }
-        }
-    }
-}
-
-void mostraNaveAbbattuta(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE], int numeroNave)
-{
-    char car;
-    if ((numeroNave == 0) or (numeroNave == 1))
-    {
-        car = 'c';
-    }
-    else if ((numeroNave == 2) or (numeroNave == 3))
-    {
-        car = 'i';
-    }
-    else
-    {
-        car = 's';
-    }
-
-    for (int i = 0; i < DIMENSIONE; i++)
-    {
-        for (int j = 0; j < DIMENSIONE; j++)
-        {
-            if (matriceNascosta[i][j] == (char)(numeroNave + 48))
-            {
-                matriceVisibile[i][j] = car;
-            }
-        }
-    }
 }
 
 int isColpitoEAffondato(int bersagli[])
@@ -381,6 +336,51 @@ int isColpitoEAffondato(int bersagli[])
     return indice;
 }
 
+void mostraNaveAbbattuta(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIONE], int numeroNave)
+{
+    char car;
+    if ((numeroNave == 0) or (numeroNave == 1))
+    {
+        car = 'c';
+    }
+    else if ((numeroNave == 2) or (numeroNave == 3))
+    {
+        car = 'i';
+    }
+    else
+    {
+        car = 's';
+    }
+
+    for (int i = 0; i < DIMENSIONE; i++)
+    {
+        for (int j = 0; j < DIMENSIONE; j++)
+        {
+            if (matriceNascosta[i][j] == (char)(numeroNave + 48))
+            {
+                matriceVisibile[i][j] = car;
+            }
+        }
+    }
+}
+
+bool finePartita(char matrice[][DIMENSIONE])
+{
+    int count = 0;
+    for (int i = 0; i < DIMENSIONE; i++)
+    {
+        for (int j = 0; j < DIMENSIONE; j++)
+        {
+            if ((matrice[i][j] == 'c') or (matrice[i][j] == 's') or (matrice[i][j] == 'i') or (matrice[i][j] == 'X'))
+            {
+                count++;
+            }
+        }
+    }
+    // cout << count << endl;
+    return (count == 22);
+}
+
 int main()
 {
     bool turno = false;
@@ -397,28 +397,28 @@ int main()
     stampaConDelay("STO POSIZIONANDO LE NAVI..........");
     impostaNavi(grigliaGiocatoreNascosta, flotta);
     impostaNavi(grigliaPCNascosta, flotta);
-/*
-    grigliaGiocatoreNascosta[2][2] = '6';
-    grigliaGiocatoreNascosta[2][3] = '6';
-    grigliaGiocatoreNascosta[4][8] = '0';
-    grigliaGiocatoreNascosta[5][8] = '0';
-    grigliaGiocatoreNascosta[6][8] = '0';
-    grigliaGiocatoreNascosta[7][8] = '0';
-    grigliaGiocatoreNascosta[8][8] = '0';
-    grigliaGiocatoreNascosta[2][7] = '4';
-    grigliaGiocatoreNascosta[3][7] = '4';
-    grigliaGiocatoreNascosta[4][7] = '4';
-    grigliaPCNascosta[2][2] = '6';
-    grigliaPCNascosta[2][3] = '6';
-    grigliaPCNascosta[4][8] = '0';
-    grigliaPCNascosta[5][8] = '0';
-    grigliaPCNascosta[6][8] = '0';
-    grigliaPCNascosta[7][8] = '0';
-    grigliaPCNascosta[8][8] = '0';
-    grigliaPCNascosta[2][7] = '2';
-    grigliaPCNascosta[3][7] = '2';
-    grigliaPCNascosta[4][7] = '2';
-*/
+    /*
+        grigliaGiocatoreNascosta[2][2] = '6';
+        grigliaGiocatoreNascosta[2][3] = '6';
+        grigliaGiocatoreNascosta[4][8] = '0';
+        grigliaGiocatoreNascosta[5][8] = '0';
+        grigliaGiocatoreNascosta[6][8] = '0';
+        grigliaGiocatoreNascosta[7][8] = '0';
+        grigliaGiocatoreNascosta[8][8] = '0';
+        grigliaGiocatoreNascosta[2][7] = '4';
+        grigliaGiocatoreNascosta[3][7] = '4';
+        grigliaGiocatoreNascosta[4][7] = '4';
+        grigliaPCNascosta[2][2] = '6';
+        grigliaPCNascosta[2][3] = '6';
+        grigliaPCNascosta[4][8] = '0';
+        grigliaPCNascosta[5][8] = '0';
+        grigliaPCNascosta[6][8] = '0';
+        grigliaPCNascosta[7][8] = '0';
+        grigliaPCNascosta[8][8] = '0';
+        grigliaPCNascosta[2][7] = '2';
+        grigliaPCNascosta[3][7] = '2';
+        grigliaPCNascosta[4][7] = '2';
+    */
     impostaGiocatoreVisibile(grigliaGiocatoreNascosta, grigliaGiocatoreVisibile);
     stampaConDelay("FLOTTE PRONTE ALLA BATTAGLIA!");
     cout << endl
