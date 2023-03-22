@@ -1,19 +1,29 @@
-# battagliaNavale
+<h1>battagliaNavale</h1>
+<div>
+<p>
 Abbiamo creato un programma di battaglia navale che si svolge fra un giocatore e il CPU su una matrice di 10x10 celle che prevede per ciascuna parte l'utilizzo della seguente flotte:
-N navi = 7
-<!-- 
- inserire navi da tot celle con i relativi nomi 'sottomarino ecc'
- 
- 
- 
- 
--->
+Navi = 7
+</p>
+<ul>
+<li>2 corazzate che occupano 5 spazi</li>
+<li>2 incrociatori che occupano 3 spazi</li>
+<li>3 sottomarini che occupano 2 spazi</li>
+</ul>
 
-La numerazione delle coordinate delle celle è coerente con il sistema di indicizzazione della matrice stessa:
-per cui la cella in alto a sinistra sarà indicata con coordinate A,1 e quella in basso a destra con cordinate J,10.
-
-L'inserimento di coordinate maggiori di 9 o minori di 0 causa instantaneamente l'interruzione della partita.
-
-Il principale problema che si pone, riguarda la collocazione delle navi entro i limiti della matrice 10x10,seguito dalla necessità di non far intersecare fra di loro le navi collocate sulla griglia.
-
-La collocazione delle navi avviene in modo random sia sulla griglia del giocatore che su quella del CPU.
+<p>
+Le coordinate della griglia seguono lo standard del gioco classico (Lettera [A-J]  e numero [1-10]).
+</p>
+<p>
+<h2>L'applicazione consiste nel:</h2>
+<ol>
+<li>Creazione e inizializzazione delle griglie di gioco.</li>
+<li>Posizionamento delle flotte in ordine casuale</li>
+<li>Inizio partita</li>
+<li>Richiesta inserimento coordinate gestito per il giocatore manualmente mentre casualmente per il CPU</li>
+<li>Controllo coordinate valide</li>
+<li>Controllo se le coordinate inserite coincidono con quella di una nave posizionata</li>
+<li>Controllo se una nave e stata colpita interamente e di conseguenza affondata</li>
+<li>Controllo Vincitore</li>
+</ol>
+</p>
+</div>
