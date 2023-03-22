@@ -20,7 +20,7 @@ Le coordinate della griglia seguono lo standard del gioco classico (Lettera [A-J
 <li>Posizionamento delle flotte in ordine casuale 🔀</li>
 <li>Inizio partita 🥁</li>
 <li>Richiesta inserimento coordinate gestito per il giocatore manualmente mentre casualmente per il CPU 🆚</li>
-<li>Controllo coordinate valide</li>
+<li>Controllo coordinate valide ✅</li>
 <li>Controllo se le coordinate inserite coincidono con quella di una nave posizionata 🆘</li>
 <li>Controllo se una nave e stata colpita interamente e di conseguenza affondata 🏴‍☠️</li>
 <li>Controllo Vincitore 🏆</li>
