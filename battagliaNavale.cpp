@@ -6,9 +6,25 @@
 #include <string>
 
 using namespace std;
+
 const int DIMENSIONE = 10;
 const char VUOTO = ' ';
 const int NUMERONAVI = 7;
+
+/*
+LEGENDA:
+
+LETTERA 'X': NAVE COLPITA
+LETTERA 'O': BERSAGLIO MANCATO
+LETTERA 'c': SIMBOLO DELLA NAVE CORAZZATA
+LETTERA 'i': SIMBOLO DELLA NAVE INCROCIATORE
+LETTERA 's': SIMBOLO DELLA NAVE SOTTOMARINO
+NUMERI DA 0 A 6: IDENTIFICANO LE NAVI SULLA GRIGLIA DI GIOCO (0 E 1 PER LE CORAZZATE, 2 E 3 PER GLI INCROCIATORI, DA 4 A 6 PER I SOTTOMARINI)
+
+OGNI PUNTO DELLA NAVE COLPITA SOSTITUISCE IL SUO NUMERO CORRISPONDENTE CON IL CARATTERE 'X' (ES. '0''0''X''0''0' PER UNA CORAZZATA)
+
+PER OGNI NAVE AFFONDATA VENGONO SOSTITUITI I CARATTERI 'X' CON LE LETTERE IDENTIFICATIVE (ES. DA 'X''X''X' A 'i''i''i' PER UNA CORAZZATA) 
+*/
 
 struct nave
 {
@@ -235,7 +251,7 @@ bool turnoGiocatore(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][D
     stampaConDelay("Dammi le coordinate dell'obiettivo da colpire, prima la lettera e poi il numero...\n");
     cin >> lettera;
     cin >> numero;
-    lettera = rendiMaiuscola(lettera); // SE LA COORDINATA INSERITA E' MINUSCOLA LA RENDE MAIUSCOLA
+    lettera = rendiMaiuscola(lettera);        // SE LA COORDINATA INSERITA E' MINUSCOLA LA RENDE MAIUSCOLA
     while (!checkCoordinate(lettera, numero)) // CONTROLLA ED EVENTUALMENTE RICHIEDE NUOVE COORDINATE SE FUORI DAL RANGE DELLA GRIGLIA
     {
         stampaConDelay("Coordinate non valide, riprova. Prima la lettera, poi il numero...\n");
@@ -260,7 +276,7 @@ bool turnoGiocatore(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][D
     }
     else
     {
-        stampaConDelay("Hai gia' bombardato in quel punto, fai piu' attenzione al prossimo turno...\n"); 
+        stampaConDelay("Hai gia' bombardato in quel punto, fai piu' attenzione al prossimo turno...\n");
         return false;
     }
 }
@@ -277,13 +293,17 @@ bool turnoPC(char matriceNascosta[][DIMENSIONE], char matriceVisibile[][DIMENSIO
     cin >> coordY;
     */
     Sleep(1000);
-    while (matriceVisibile[coordY][coordX] != VUOTO) // SE IL PUNTO E' GIA' STATO BOMBARDATO
+    int tentativi = 1;
+    char indiceNumero;
+    // cout << "Tentativo numero: " << tentativi << "     Coordinate:  " << indiceNumero << " " << coordY+1 << endl;
+    while (((matriceVisibile[coordY][coordX] == 'X') or (matriceVisibile[coordY][coordX] == 'O') or (matriceVisibile[coordY][coordX] == 'c') or (matriceVisibile[coordY][coordX] == 'i') or (matriceVisibile[coordY][coordX] == 's')) and (tentativi < 1000)) // SE IL PUNTO E' GIA' STATO BOMBARDATO
     {
-        int coordX = rand() % 10;
-        int coordY = rand() % 10;
+        coordX = rand() % 10;
+        coordY = rand() % 10;
+        tentativi++;
+        // cout << "Tentativo numero: " << tentativi << "     Coordinate:  " << indiceNumero << " " << coordY + 1 << endl;
     }
-    char indiceNumero = ((char)coordX + 65);
-
+    indiceNumero = ((char)coordX + 65);
     stampaConDelay("Il computer si prepara a colpire in ");
     cout << indiceNumero << " " << coordY + 1;
     stampaConDelay("...\n");
@@ -329,7 +349,7 @@ int isColpitoEAffondato(int bersagli[]) // RESTITUISCE IL NUMERO INTERO POSITIVO
     {
         if (bersagli[n] == 5) // CONTROLLA CHE IL NUMERO DI COLPI SUBITI SIA UGUALE AL NUMERO DI COLPI SUFFICIENTI AD ABBATTERLA
         {
-            indice = n; 
+            indice = n;
         }
         n++;
     }
@@ -380,7 +400,7 @@ void mostraNaveAbbattuta(char matriceNascosta[][DIMENSIONE], char matriceVisibil
     }
 }
 
-bool finePartita(char matrice[][DIMENSIONE])  // RESTITUISCE TRUE SE LA PARTITA E' FINITA, FALSE ALTRIMENTI
+bool finePartita(char matrice[][DIMENSIONE]) // RESTITUISCE TRUE SE LA PARTITA E' FINITA, FALSE ALTRIMENTI
 {
     // SCORRE TUTTA LA GRIGLIA E CONTA QUANTI COLPI ANDATI A BUON FINE CI SONO
     int count = 0;
