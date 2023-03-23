@@ -13,6 +13,7 @@ Navi = 7
 <p>
 Le coordinate della griglia seguono lo standard del gioco classico (Lettera [A-J]  e numero [1-10]).
 </p>
+<hr>
 <div>
 <h3>Legenda:</h3>
 <ul>
@@ -26,6 +27,7 @@ Le coordinate della griglia seguono lo standard del gioco classico (Lettera [A-J
 <li><em>PER OGNI NAVE AFFONDATA VENGONO SOSTITUITI I CARATTERI 'X' CON LE LETTERE IDENTIFICATIVE (ES. DA 'X''X''X' A 'i''i''i' PER UNA CORAZZATA)</em></li>
 </ul>
 </div>
+<hr>
 <p>
 <h2>L'applicazione consiste nel:</h2>
 <ol>
