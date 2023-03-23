@@ -1,18 +1,5 @@
 <h1>battagliaNavale 🛥️</h1>
 <div>
-<h3>Legenda:</h3>
-<ul>
-<li>LETTERA 'X': NAVE COLPITA</li>
-<li>LETTERA 'O': BERSAGLIO MANCATO</li>
-<li>LETTERA 'c': SIMBOLO DELLA NAVE CORAZZATA</li>
-<li>LETTERA 'i': SIMBOLO DELLA NAVE INCROCIATORE</li>
-<li>LETTERA 's': SIMBOLO DELLA NAVE SOTTOMARINO</li>
-<li>NUMERI DA 0 A 6: IDENTIFICANO LE NAVI SULLA GRIGLIA DI GIOCO (0 E 1 PER LE CORAZZATE, 2 E 3 PER GLI INCROCIATORI, DA 4 A 6 PER I SOTTOMARINI)</li>
-<li>OGNI PUNTO DELLA NAVE COLPITA SOSTITUISCE IL SUO NUMERO CORRISPONDENTE CON IL CARATTERE 'X' (ES. '0''0''X''0''0' PER UNA CORAZZATA)</li>
-<li>PER OGNI NAVE AFFONDATA VENGONO SOSTITUITI I CARATTERI 'X' CON LE LETTERE IDENTIFICATIVE (ES. DA 'X''X''X' A 'i''i''i' PER UNA CORAZZATA) </li>
-</ul>
-</div>
-<div>
 <p>
 Abbiamo creato un programma di battaglia navale che si svolge fra un giocatore e il CPU su una matrice di 10x10 celle che prevede per ciascuna parte l'utilizzo della seguente flotte:
 Navi = 7
@@ -26,6 +13,19 @@ Navi = 7
 <p>
 Le coordinate della griglia seguono lo standard del gioco classico (Lettera [A-J]  e numero [1-10]).
 </p>
+<div>
+<h3>Legenda:</h3>
+<ul>
+<li><em>LETTERA 'X': NAVE COLPITA</em></li>
+<li><em>LETTERA 'O': BERSAGLIO MANCATO</em></li>
+<li><em>LETTERA 'c': SIMBOLO DELLA NAVE CORAZZATA</em></li>
+<li><em>LETTERA 'i': SIMBOLO DELLA NAVE INCROCIATORE</em></li>
+<li><em>LETTERA 's': SIMBOLO DELLA NAVE SOTTOMARINO</em></li>
+<li><em>NUMERI DA 0 A 6: IDENTIFICANO LE NAVI SULLA GRIGLIA DI GIOCO (0 E 1 PER LE CORAZZATE, 2 E 3 PER GLI INCROCIATORI, DA 4 A 6 PER I SOTTOMARINI)</em></li>
+<li><em>OGNI PUNTO DELLA NAVE COLPITA SOSTITUISCE IL SUO NUMERO CORRISPONDENTE CON IL CARATTERE 'X' (ES. '0''0''X''0''0' PER UNA CORAZZATA)</em></li>
+<li><em>PER OGNI NAVE AFFONDATA VENGONO SOSTITUITI I CARATTERI 'X' CON LE LETTERE IDENTIFICATIVE (ES. DA 'X''X''X' A 'i''i''i' PER UNA CORAZZATA)</em></li>
+</ul>
+</div>
 <p>
 <h2>L'applicazione consiste nel:</h2>
 <ol>
