@@ -13,6 +13,21 @@ Navi = 7
 <p>
 Le coordinate della griglia seguono lo standard del gioco classico (Lettera [A-J]  e numero [1-10]).
 </p>
+<hr>
+<div>
+<h3>Legenda:</h3>
+<ul>
+<li><em>LETTERA 'X': NAVE COLPITA</em></li>
+<li><em>LETTERA 'O': BERSAGLIO MANCATO</em></li>
+<li><em>LETTERA 'c': SIMBOLO DELLA NAVE CORAZZATA</em></li>
+<li><em>LETTERA 'i': SIMBOLO DELLA NAVE INCROCIATORE</em></li>
+<li><em>LETTERA 's': SIMBOLO DELLA NAVE SOTTOMARINO</em></li>
+<li><em>NUMERI DA 0 A 6: IDENTIFICANO LE NAVI SULLA GRIGLIA DI GIOCO (0 E 1 PER LE CORAZZATE, 2 E 3 PER GLI INCROCIATORI, DA 4 A 6 PER I SOTTOMARINI)</em></li>
+<li><em>OGNI PUNTO DELLA NAVE COLPITA SOSTITUISCE IL SUO NUMERO CORRISPONDENTE CON IL CARATTERE 'X' (ES. '0''0''X''0''0' PER UNA CORAZZATA)</em></li>
+<li><em>PER OGNI NAVE AFFONDATA VENGONO SOSTITUITI I CARATTERI 'X' CON LE LETTERE IDENTIFICATIVE (ES. DA 'X''X''X' A 'i''i''i' PER UNA CORAZZATA)</em></li>
+</ul>
+</div>
+<hr>
 <p>
 <h2>L'applicazione consiste nel:</h2>
 <ol>
