@@ -1,7 +1,11 @@
 #include <iostream>
 #include <random>
 #include <time.h>
+#ifdef _WIN32
 #include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 #include <process.h>
 #include <string>
 
